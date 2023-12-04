@@ -40,3 +40,53 @@ for column_ind, line in enumerate(grid):
         total += int(num)
 
 print(total)
+
+
+# part 2
+
+from collections import defaultdict
+
+asterix = defaultdict(list)
+total = 0
+
+for column_ind, line in enumerate(grid):
+    in_num = False
+    valid = False
+    num = ""
+    asterixes = []
+
+    for row_ind, chara in enumerate(line):
+        if chara in "0123456789":
+            in_num = True
+            num += chara
+
+        elif in_num and chara not in "0123456789":
+            in_num = False
+            if valid:
+                for a in asterixes:
+                    asterix[a].append(num)
+            valid = False
+            num = ""
+            asterixes = []
+
+        if in_num and not valid:
+            # scan around
+            for c, r in checks:
+                # Leetcode came in handy with this dfs constraint code
+                if 0 <= column_ind + c < len(grid) and 0 <= row_ind + r < len(grid[0]):
+                    check_chara = grid[column_ind + c][row_ind + r]
+                    if check_chara == "*":
+                        asterixes.append((column_ind + c, row_ind + r))
+                        valid = True
+                        break
+
+    # This took like 3 hours to figure out - newlines end the number, but they weren't being added because there was never technically an end
+    if num != "" and in_num and valid:
+        for a in asterixes:
+            asterix[a].append(num)
+
+for (r, c), value in asterix.items():
+    if len(value) == 2:
+        total += int(value[0]) * int(value[1])
+
+print(total)
