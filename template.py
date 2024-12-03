@@ -1,10 +1,10 @@
 def part1() -> int:
-    with open("./Day1/input.txt", "r") as file:
+    with open("2024/Day1/input.txt", "r") as file:
         return 0
 
 
 def part2() -> int:
-    with open("./Day1/input.txt", "r") as file:
+    with open("2024/Day1/input.txt", "r") as file:
         return 0
 
 
